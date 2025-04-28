@@ -1,0 +1,167 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Smart Study{% endblock %}</title>
+
+        {% block styling %}
+        <style>
+            body{
+                background-color: rgb(246, 246, 172);
+            }
+
+            #why
+            {
+                background-color: #ffde59;
+            }
+            .btn-login {
+                border: 1px solid grey;
+            }
+
+            .btn-signup {
+                background-color: #ffde59;
+            }
+
+            .image-glow {
+                box-shadow: 0 2px 4px black;
+            }
+
+            /* Scaling for text */
+            @media (min-width: 100px) {
+                .lp-text {
+                    font-size: 14px;
+                }
+            }
+
+            @media (min-width: 576px) {
+                .lp-text {
+                    font-size: 14px;
+                }
+            }
+
+            @media (min-width: 768px) {
+                .lp-text {
+                    font-size: 16px;
+                }
+            }
+
+            @media (min-width: 992px) {
+                .lp-text {
+                    font-size: 20px;
+                }
+            }
+
+            @media (min-width: 1200px) {
+                .lp-text {
+                    font-size: 20px;
+                }
+            }
+        </style>
+        {% endblock %}
+    </head>
+        
+    <body>
+        {% block header %}
+        <nav id="planify-header" class="navbar navbar-expand-md sticky-top" style="background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); padding-top: 0px; padding-bottom: 0px;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'get-started' %}" style="padding-top: 20px; padding-bottom: 0px; margin-bottom: 30px;"><img src="{% static 'base/logo.png' %}" class="nav-logo img-fluid" style="width:150px;"></a>
+                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                            <a class="nav-link " href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                            </li>
+                        </ul>
+                        </div>
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="btn btn-signup" style="font-size: 13px; margin-top: 5px; margin-bottom: 5px;">Manage your tables</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}" class="btn btn-login" style="margin-right: 5px; margin-top: 5px; font-size: 13px;">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'signup' %}" class="btn btn-signup" style="margin-top: 5px; margin-bottom: 5px; font-size: 13px;">Sign Up</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% endblock %}
+
+        {% block content %}
+        <div class="container-fluid">
+            <div  class="row mt-5" style="margin: 50px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);" id ="why">
+                <div class="col-md-12 col-lg-6 col-xl-6 d-flex flex-column justify-content-center align-items-center" >
+                    <div style="margin: 30px;" >
+                        <h2>What is Smart Study?</h2>
+                        <p class="lp-text">
+                        Smart Study is a modern study tracking platform developed by Shivam Bhatt and his team (Shivansh Singla, Malika Arora, and Isha Jain) as part of their university mini project.
+                        </p>
+                        <p class="lp-text">
+                        It provides an easy-to-use dashboard where students can organize their subjects, plan tasks, and monitor progress week by week with detailed insights.
+                        </p>
+                        <p class="lp-text">
+                        Smart Study also tracks daily achievements and calculates overall subject completion percentages, helping students stay focused and achieve their academic goals.
+                        </p>
+                        <p class="lp-text">
+                        In addition, motivational quotes are displayed to encourage a positive mindset and continuous improvement.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <div class="d-flex align-items-center" style="margin: 30px 30px 30px 75px;">
+                        <img src="{% static 'base/Smart_Study_image.png' %}" class=" image-glow" data-bs-toggle="modal" data-bs-target="#planifyPosterModal" width="500px" height="500px">
+                    
+            </div>
+            <footer style="background-color: #ffde59; padding: 20px; text-align: center; color: #333;">
+                <p><strong>SMART STUDY</strong> | Track. Achieve. Succeed.</p>
+                <p>© 2025 Smart Study. All rights reserved.</p>
+            </footer>
+            
+        
+        {% endblock %}
+    </body>
+
+    {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var navLinks = document.querySelectorAll('a[href^="#"]');
+
+        for (var i = 0; i < navLinks.length; i++) {
+            navLinks[i].addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default anchor link behavior
+
+            var targetSectionId = this.getAttribute('href').substring(1); // Extract the section ID from the href attribute
+            var targetSection = document.getElementById(targetSectionId);
+
+            if (targetSection) {
+                var header = document.getElementById('planify-header');
+                var headerHeight = header.offsetHeight;
+                var targetOffset = targetSection.offsetTop - headerHeight;
+
+                window.scrollTo({
+                top: targetOffset,
+                behavior: 'smooth'
+                });
+            }
+            });
+        }
+        });
+    </script>
+    {% endblock scripts %}
+</html>
